@@ -71,15 +71,3 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
-
-
-// DATABASE_URL=
-
-// GOOGLE_CLIENT_ID=
-// GOOGLE_CLIENT_SECRET=
-// GOOGLE_CALLBACK=
-// # GOOGLE_CALLBACK=
-
-// CLOUDINARY_CLOUD_NAME=
-// CLOUDINARY_API_KEY=
-// CLOUDINARY_API_SECRET=
