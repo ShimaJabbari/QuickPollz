@@ -73,13 +73,13 @@ app.use(function(err, req, res, next) {
 module.exports = app;
 
 
-// DATABASE_URL=mongodb+srv://NOVA:NOVA12345@nova.5tl2a2j.mongodb.net/?retryWrites=true&w=majority
+// DATABASE_URL=
 
-// GOOGLE_CLIENT_ID=253552511896-rc7iomqvmf2qb830s8l3258u7pf3lc2m.apps.googleusercontent.com
-// GOOGLE_CLIENT_SECRET=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
+// GOOGLE_CLIENT_ID=
+// GOOGLE_CLIENT_SECRET=
 // GOOGLE_CALLBACK=http://localhost:3000/oauth2callback
 // # GOOGLE_CALLBACK=http://localhost:3000/auth/google/callback
 
-// CLOUDINARY_CLOUD_NAME=dpvyfpp4k
-// CLOUDINARY_API_KEY=654783321611421
-// CLOUDINARY_API_SECRET=rbbpZVnjrmjx1WuVmRMLY627zAg
+// CLOUDINARY_CLOUD_NAME=
+// CLOUDINARY_API_KEY=
+// CLOUDINARY_API_SECRET=
