@@ -1,0 +1,30 @@
+<%- include('./partials/header') %>
+
+
+<div id="new-post-container" style="margin: 10% 10%; width: 80%; border: 3px solid teal;">
+    <form action="/posts/upload" method="POST" id="creatin-post-form" enctype="multipart/form-data">
+ <!-- ///////////////////// IMAGE FILE ///////////////////////////////// -->
+ 
+     <div>
+         <input type="file"   name="image" id="file-loader"  > 
+     </div>
+
+     <br>
+         <!-- //////////////// Caption /////////////////// -->
+         <input type="text" name="caption" placeholder="caption">
+         <input type="submit" value="submit the pic">
+ 
+     </form>
+ </div> 
+
+
+<%- include('./partials/footer') %>
+
+
+<!-- <form action="">
+
+    <input type="file" placeholder="PLEASE INSERT AN IMAGE">
+    <input type="text" placeholder="Enter a caption ">
+    <input type="submit" placeholder="ADD YOUR POST">
+
+</form> -->

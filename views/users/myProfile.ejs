@@ -1,0 +1,150 @@
+<%- include('../partials/header') %>
+<style>
+  .wrapper {
+    width: 100%;
+    padding: 0 2rem;
+    text-align: center;
+    /* background: #232323; */
+    background-color: rgba(24, 29, 32, 0.4);
+  }
+  .polaroid {
+    background: #fff;
+    padding: 1rem;
+    box-shadow: 0 0.2rem 1.2rem rgba(0,0,0,0.2);
+    
+  }
+  .polaroid > img{
+    max-width: 100%;
+    height: auto;
+  }
+  .caption {
+    font-size: 1.8rem;
+    text-align: center;
+    line-height: 2em;
+  }
+  .item {
+    width: 30%;
+    display: inline-block;
+    margin-top: 2rem;
+    filter: grayscale(100%);
+  }
+  .item .polaroid:before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    transition: all 0.35s;
+  }
+  .item:nth-of-type(4n+1) {
+    transform: scale(0.8, 0.8) rotate(5deg);
+    transition: all 0.35s;
+  }
+  .item:nth-of-type(4n+1) .polaroid:before {
+    transform: rotate(6deg);
+    height: 20%;
+    width: 47%;
+    bottom: 30px;
+    right: 12px;
+    box-shadow: 0 2.1rem 2rem rgba(0,0,0,0.4);
+  }
+  .item:nth-of-type(4n+2) {
+    transform: scale(0.8, 0.8) rotate(-5deg);
+    transition: all 0.35s;
+  }
+  .item:nth-of-type(4n+2) .polaroid:before {
+    transform: rotate(-6deg);
+    height: 20%;
+    width: 47%;
+    bottom: 30px;
+    left: 12px;
+    box-shadow: 0 2.1rem 2rem rgba(0,0,0,0.4);
+  }
+  .item:nth-of-type(4n+4) {
+    transform: scale(0.8, 0.8) rotate(3deg);
+    transition: all 0.35s;
+  }
+  .item:nth-of-type(4n+4) .polaroid:before {
+    transform: rotate(4deg);
+    height: 20%;
+    width: 47%;
+    bottom: 30px;
+    right: 12px;
+    box-shadow: 0 2.1rem 2rem rgba(0,0,0,0.3);
+  }
+  .item:nth-of-type(4n+3) {
+    transform: scale(0.8, 0.8) rotate(-3deg);
+    transition: all 0.35s;
+  }
+  .item:nth-of-type(4n+3) .polaroid:before {
+    transform: rotate(-4deg);
+    height: 20%;
+    width: 47%;
+    bottom: 30px;
+    left: 12px;
+    box-shadow: 0 2.1rem 2rem rgba(0,0,0,0.3);
+  }
+  .item:hover {
+    filter: none;
+    transform: scale(1, 1) rotate(0deg) !important;
+    transition: all 0.35s;
+  }
+  .item:hover .polaroid:before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    transform: rotate(0deg);
+    height: 90%;
+    width: 90%;
+    bottom: 0%;
+    right: 5%;
+    box-shadow: 0 1rem 3rem rgba(0,0,0,0.2);
+    transition: all 0.35s;
+  }
+    #profile_header{
+        width: 100%;
+        height: 25%;
+        /* border: 5px dotted pink; */
+        margin-top: 50px;
+        display: flex;
+        justify-content: space-around;
+        /* border: 3px dotted wheat; */
+    }
+    #profile_avatar {
+        width: 50%;
+    }
+    #profile_avatar img {
+        border-radius: 50%;
+        width: 150px;
+        height: 150px;
+        border: 3px solid rgb(118, 112, 121);
+        /* border: 3px solid rgb(200, 141, 200); */
+    }
+    #profile_text_holder{
+        width: 40%;
+    }
+</style>
+<div id="profile_header"> 
+    <div id="profile_text_holder">
+        <h1> Welcome <%= loggedInUser.firstName%></h1>
+    </div>
+    <div id="profile_avatar">
+        <img src="<%= loggedInUser.avatar %>" alt="">
+    </div>
+</div>
+
+<div id="allPostsHolder">
+  <% if (posts.length != 0 ) {%>
+    <% posts.forEach ( (post, postIdx) => {%>
+      <div class="item">
+        <p><%= loggedInUser.displayName %></p>
+        <div class="polaroid"><img src="<%= post.image%>">
+          <div class="caption"> <%=post.caption%></div>
+        </div>
+      </div>
+    <% });%>  
+  </div>
+  <% } else {%>
+    <h1> YOU HAVE NO POSTS </h1>
+    <a href="/posts/new"> ADD A POST NOW </a>
+  <% }%>
+
+<%- include('../partials/footer') %>
