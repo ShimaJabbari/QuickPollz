@@ -77,8 +77,8 @@ module.exports = app;
 
 // GOOGLE_CLIENT_ID=
 // GOOGLE_CLIENT_SECRET=
-// GOOGLE_CALLBACK=http://localhost:3000/oauth2callback
-// # GOOGLE_CALLBACK=http://localhost:3000/auth/google/callback
+// GOOGLE_CALLBACK=
+// # GOOGLE_CALLBACK=
 
 // CLOUDINARY_CLOUD_NAME=
 // CLOUDINARY_API_KEY=
