@@ -1,0 +1,131 @@
+<%- include('./partials/header') %>
+
+<style>
+    .containerBox {
+      width: 120%;
+      padding: 20px;
+      box-sizing: border-box;
+      border: 2px solid white;
+      border-radius: 10px;
+      background-color: black;
+      color: white;
+      margin-top: 30%;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      box-sizing: border-box;
+      background: none;
+      border: 1px solid white;
+      color: white;
+      border-radius: 5px;
+    }
+    button {
+      cursor: pointer;
+    }
+    button:hover {
+      background: white;
+      color: black;
+    }
+    .remove-btn {
+      color: red;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0 5px;
+      font-size: 20px;
+      line-height: 20px;
+    }
+    #newButton{
+      color: white;
+      text-decoration: line-through;
+    }
+  </style>
+  
+  <div class="poll-container">
+    <div class="containerBox">
+      <form id="pollForm" action="/posts/upload" method="POST">
+        <label for="question">Question:</label>
+        <input type="text" id="question" name="question" required>
+        
+        <div id="optionsContainer">
+          <div>
+            <label>Options:</label>
+            <input id="1" type="text" name="options" required placeholder="Option 1">
+            <input id="2" type="text" name="options" required placeholder="Option 2">
+          </div>
+        </div>
+        <button type="button" onclick="addOption()">+</button>
+        <button type="submit">Submit Poll</button>
+      </form>
+    </div>
+  </div>
+  
+  <script>
+    let optionCount = 2; // Starts at 2 because two inputs are present initially
+    
+    function addOption() {
+      const container = document.getElementById('optionsContainer');
+      if (container.children.length > 3) { // Prevent more than 5 options
+        alert('No more than five options allowed.');
+        return;
+      }
+    
+      optionCount++;
+      const newOption = createOption(optionCount);
+      container.appendChild(newOption);
+    }
+  
+    function createOption(index) {
+      const newOption = document.createElement('div');
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.name = 'options';
+      input.placeholder = `Option ${index}`;
+    
+      const removeButton = document.createElement('button');
+      const container = document.getElementById('optionsContainer');
+      removeButton.innerHTML = '&times;'; // Using HTML entity for X
+      removeButton.type = 'button';
+      removeButton.className = 'remove-btn';
+      removeButton.onclick = function() {
+        container.removeChild(newOption);
+        optionCount--
+        updatePlaceholders();
+      };
+    
+      newOption.appendChild(input);
+      newOption.appendChild(removeButton);
+      return newOption;
+    }
+  
+    function updatePlaceholders() {
+      const options = document.querySelectorAll('#optionsContainer > div > input[name="options"]');
+      options.forEach((input, index) => {
+        input.placeholder = `Option ${index + 1}`; // Correct the numbering
+      });
+    }
+  
+    document.getElementById('pollForm').onsubmit = function() {
+      const options = document.querySelectorAll('input[name="options"]');
+      const values = Array.from(options).map(input => input.value.trim()).filter(value => value !== "");
+      if (values.length < 2 || values.length > 5) {
+        alert('Please ensure there are between 2 and 5 options.');
+        return false;
+      }
+      return true;
+    };
+  </script>
+  
+
+<%- include('./partials/footer') %>
+
+
+<!-- <form action="">
+
+    <input type="file" placeholder="PLEASE INSERT AN IMAGE">
+    <input type="text" placeholder="Enter a caption ">
+    <input type="submit" placeholder="ADD YOUR POST">
+
+</form> -->

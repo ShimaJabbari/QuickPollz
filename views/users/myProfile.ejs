@@ -1,0 +1,209 @@
+<%- include('../partials/header') %>
+<style>
+  .myProfile{
+    width: 70vw;
+    /* height: 100vh; */
+    /* border: 1px solid white; */
+  }
+  .card{
+    width: 100%;
+  }
+  .wrapper {
+    width: 100%;
+    padding: 0 2rem;
+    text-align: center;
+    /* background: #232323; */
+    background-color: rgba(24, 29, 32, 0.4);
+  }
+  .polaroid {
+    background: #fff;
+    padding: 1rem;
+    box-shadow: 0 0.2rem 1.2rem rgba(0,0,0,0.2);
+    
+  }
+  .polaroid > img{
+    max-width: 100%;
+    height: auto;
+  }
+  .caption {
+    font-size: 1.8rem;
+    text-align: center;
+    line-height: 2em;
+  }
+  .item {
+    width: 30%;
+    display: inline-block;
+    margin-top: 2rem;
+    filter: grayscale(100%);
+  }
+
+    #profile_header{
+      /* border: 2px dotted darkblue; */
+        width: 100%;
+        /* height: 25%; */
+        /* border: 5px dotted pink; */
+        margin-top: 40px;
+        display: flex;
+        /* flex-direction: column; */
+        justify-content: space-around;
+        align-items: center;
+        border-bottom: .5px solid grey;
+        /* border: 3px dotted wheat; */
+    }
+    #profile_avatar {
+        width: 50%;
+    }
+    #profile_avatar img {
+        border-radius: 50%;
+        width: 150px;
+        height: 150px;
+        border: 2px solid rgb(195, 195, 196);
+        /* border: 3px solid rgb(200, 141, 200); */
+    }
+    #profile_text_holder{
+        width: 120%;
+        margin: 5%;
+
+    }
+    #allPostsHolder{
+      /* border: 3PX dotted hotpink; */
+      margin-top: 3%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      width: 80%;
+
+    }
+    .container {
+        padding-top: 50px;
+        width: 70%;
+      
+        margin-top: 20px;
+        /* background-color: #f8f9fa; */
+        border-color: #000000;
+        /* border-bottom: .5px solid grey; */
+    }
+
+    .list-group-item {
+        background-color: #000000; /* Bright white background for list items */ 
+        /* border: 1px solid #323232;  */
+        align-items: center;
+        justify-content: space-between; 
+        /* padding: 10px; */
+    } 
+
+
+    .option-text {
+       
+        font-size: 18px; /* Larger font size for readability */
+
+        flex: 1; /* Allows text to take up the rest of the space */
+        padding-right: 10px; /* Ensures spacing between text and next element */
+        color: #dee2e6;
+    }
+
+    .vote-info {
+       
+        flex-basis: 100px; /* Fixed space for votes */
+        text-align: right; /* Aligns vote info to the right */
+        margin-right: 10px; /* Adds a margin between vote info and progress bar */
+        color:  #c2bbbb;
+        margin-bottom: 5px;
+
+    }
+
+    .progress {
+
+        height: 25px;
+        background-color: #525252;
+        border-radius: 25px;
+
+    }
+
+    .progress-bar {
+        
+        background-color: #fffafa; /* Dark gray */
+        color: rgb(0, 0, 0); /* Text color */
+        font-weight: bold;
+        border-top-right-radius: 25px;
+        border-bottom-right-radius: 25px;
+
+    }
+
+
+    .card {
+    background-color: #000000;
+    border-bottom: .5px solid rgb(197, 194, 194);
+    padding: 10px;  
+    width:100%;
+    margin-bottom: 30px ; 
+   
+}
+
+
+
+
+    .card-header {
+        background-color: #000000; /* Dark header for contrast */
+        color: #ffffff; /* White text for contrast */
+        font-size: 24px; /* Larger font size for header */
+    }
+
+    h1 {
+        color: #343a40; /* Dark color for main heading */
+    }
+    #profileButton{
+      color: #fff;
+      text-decoration: line-through;
+    }
+</style>
+<div class="myProfile">
+
+  <div id="profile_header"> 
+
+    <div style="width: 30%;">
+      <div id="profile_avatar">
+          <img src="<%= loggedInUser.avatar %>" alt="">
+      </div>
+
+      <div id="profile_text_holder">
+          <h1> Welcome <%= loggedInUser.firstName%></h1>
+      </div>
+    </div>
+
+</div>
+
+<div class="container">
+  <div id="allPostsHolder">
+      <% if (posts.length > 0) { %>
+          <% posts.forEach(function(post) { %>
+              <div class="card">
+                  <div class="card-header">
+                      <%= post.question %>
+                  </div>
+                  <ul class="list-group list-group-flush">
+                      <% 
+                      let totalVotes = post.options.reduce((sum, option) => sum + option.votes, 0);
+                      post.options.forEach(function(option) { 
+                          let percentage = totalVotes > 0 ? (option.votes / totalVotes * 100).toFixed(2) : 0; %>
+                          <li class="list-group-item">
+                              <div class="option-text"><%= option.optionText %></div>
+                              <div class="vote-info"><%= option.votes %> votes</div>
+                              <div class="progress-container">
+                                  <div class="progress w-100">
+                                      <div class="progress-bar" role="progressbar" style="width: <%= percentage %>%;" aria-valuenow="<%= percentage %>" aria-valuemin="0" aria-valuemax="100"><%= percentage %>%</div>
+                                  </div>
+                              </div>
+                          </li>
+                      <% }); %>
+                  </ul>
+              </div>
+          <% }); %>
+      <% } else { %>
+          <h1>YOU HAVE NO POLLS YET :(</h1>
+          <a style="font-size: larger;" href="/posts/new">Create a Poll now? ;)</a>
+      <% } %>
+  </div>
+</div>
+<%- include('../partials/footer') %>

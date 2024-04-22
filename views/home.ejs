@@ -1,0 +1,131 @@
+<%- include('./partials/header') %>
+<style>
+    .polls-container .card {
+        margin-top: 20px;
+        background-color: #000000;
+        border-color: #000000;
+        border-bottom: .5px solid rgb(183, 183, 183);
+        padding: 10px;  
+        width:100%;
+        margin-bottom: 30px ;
+
+
+    }
+
+    .card-header {
+        background-color: #000000;
+        color: white;
+    }
+
+    .progress {
+        height: 25px;
+        background-color: #525252;
+        border-radius: 25px;
+    }
+
+    .progress-bar {
+        background-color: #fffafa; /* Dark gray */
+        color: rgb(0, 0, 0); /* Text color */
+        font-weight: bold;
+        border-top-right-radius: 25px;
+        border-bottom-right-radius: 25px;
+    }
+
+    .list-group-item {
+        background-color: #000000; /* Bright background for list items */
+        /* border: 1px solid #323232;  */
+        display: flex;
+        align-items: center;
+        justify-content: space-between; /* Ensures space between elements */
+        padding: 10px;
+    }
+
+    .option-text {
+        flex: 1; /* Allows text to take up the rest of the space */
+        padding-right: 10px; /* Ensures spacing between text and next element */
+        color: #dee2e6;
+    }
+
+    .vote-info {
+        flex-basis: 100px; /* Fixed space for votes */
+        text-align: right; /* Aligns vote info to the right */
+        margin-right: 10px; /* Adds a margin between vote info and progress bar */
+        color: 
+        #c2bbbb;
+    }
+
+    .progress-container, .vote-container {
+        flex-grow: 1; /* Allows these elements to grow */
+        display: flex;
+        justify-content: flex-end; /* Aligns the progress bar and vote button to the right */
+    }
+
+    .btn-vote {
+        padding: 0.375rem 0.75rem; /* Standard Bootstrap padding for buttons */
+    }
+    #homeButton{
+        color: #fff;
+        text-decoration: line-through;
+        
+    }
+    .card {
+        background-color: #000000;
+        color: aqua;
+   
+   
+    }
+    
+ 
+
+</style>
+<div class="container mt-4">
+    <h1>Welcome, <%= loggedInUser.firstName %>!</h1>
+    <div class="polls-container">
+        <% if (posts.length > 0) { %>
+            <% posts.forEach(function(post) { %>
+                <div class="card">
+                    <div class="card-header">
+                        <h2><%= post.question %></h2>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <% 
+                        let totalVotes = post.options.reduce((sum, option) => sum + option.votes, 0);
+                        let userHasVoted = post.options.some(option => option.voters.includes(loggedInUser._id));
+                        if (userHasVoted) {
+                            post.options.forEach(function(option) { 
+                                let percentage = totalVotes > 0 ? (option.votes / totalVotes * 100).toFixed(2) : 0; %>
+                                <li class="list-group-item">
+                                    <div class="option-text"><%= option.optionText %></div>
+                                    <div class="vote-info"><%= option.votes %> votes</div>
+                                    <div class="progress-container">
+                                        <div class="progress w-100">
+                                            <div class="progress-bar" role="progressbar" style="width: <%= percentage %>%;" aria-valuenow="<%= percentage %>" aria-valuemin="0" aria-valuemax="100"><%= percentage %>%</div>
+                                        </div>
+                                    </div>
+                                </li>
+                            <% });
+                        } else {
+                            post.options.forEach(function(option) { %>
+                                <li class="list-group-item">
+                                    <div class="option-text"><%= option.optionText %></div>
+                                    <div class="vote-container">
+                                        <form action="/posts/vote/<%= post._id %>/<%= option._id %>" method="POST">
+                                            <button type="submit" class="btn btn-primary btn-sm btn-vote">Vote</button>
+                                        </form>
+                                    </div>
+                                </li>
+                            <% });
+                        }
+                        %>
+                    </ul>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <div class="alert alert-info" style="background-color: #696767; color: aliceblue;">You have no polls to participate in. Why not create one?</div>
+            <a class="btn btn-success" style="color: #000000; background-color: aliceblue;" href="/posts/new">Create a Poll</a>
+        <% } %>
+    </div>
+</div>
+
+<%- include('./partials/footer') %> 
+
